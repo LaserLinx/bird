@@ -1,0 +1,97 @@
+{
+	"screen": {
+		"width": 360,
+		"height": 640,
+		"fps": 120
+	},
+	"sprites": [
+		{
+			"id": "score",
+			"x": 151,
+			"y": 50,
+			"texture": "none.svg",
+			"layer": 3,
+			"width": 64,
+			"height": 64,
+			"opacity": 1.0,
+			"script": "\nthis.onStart = function() {\n\t\n\tthis.uiTextSize = 64\n\tthis.uiText = \"\"\n\tthis.text = \"0\"\n\n\tthis.set = function(text) {\n\t\tthis.text = text\n\t\tthis.uiText = text\n\t}\n\n}\n\n\n\nthis.onUpdate = function(sprites) {\n\tif (sprites[\"play\"].run) {\n\t\tthis.uiText = this.text\n\t} else {\n\t\tthis.uiText = \"\"\n\t}\n}\n\n\n\n\n\n\n"
+		},
+		{
+			"id": "play",
+			"x": 0,
+			"y": 0,
+			"texture": "message.png",
+			"layer": 100,
+			"width": 360,
+			"height": 640,
+			"opacity": 1.0,
+			"script": "\nthis.onStart = function() {\n\t\n\tthis.run = false\n\tthis.diePlayed = false\n\n}\n\n\nthis.onClick = function() {\nthis.x = -500\nsprites[\"bird\"].x = 55\nsprites[\"bird\"].y = 270\nsprites[\"pipe\"].show()\nsprites[\"score\"].set(\"0\")\nsprites[\"score_hitbox\"].used = false\nsprites[\"score_hitbox\"].score = 0\nthis.run = true\nthis.diePlayed = false\n\n}\n\n\n\nthis.onUpdate = function() {\n\t\n\n\tif(this.run == false) {\n\t\tthis.x=0\n\t\tsprites[\"pipe\"].x = -500\n\t\tsprites[\"pipe\"].move = false\n\t\tif (!this.diePlayed) {\n\tthis.playSound(\"die.ogg\");\n\tthis.diePlayed = true\n}\n\t\t\n\t\t\n\t}\n\tif (this.run) {\n\t\tif (sprites[\"pipe\"].x <= -75) {\n\t\t\tsprites[\"pipe\"].show()\n\t\t}\n\t}\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		},
+		{
+			"id": "pipe1",
+			"x": 199,
+			"y": -100,
+			"texture": "pipe-green-flip.png",
+			"layer": 1,
+			"width": 64,
+			"height": 350,
+			"opacity": 1.0,
+			"script": "this.onStart = function() {\n}\n\n\nthis.onUpdate = function() {\n\tif (this.isTouching(\"bird\")) {\n\t\tsprites[\"play\"].run = false\n\t\t\n\t}\n\tthis.x = sprites[\"pipe\"].x\n\tthis.y = sprites[\"pipe\"].y - this.height - 200\n\n\t\n}\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		},
+		{
+			"id": "pipe",
+			"x": 200,
+			"y": 359,
+			"texture": "pipe-green.png",
+			"layer": 1,
+			"width": 64,
+			"height": 350,
+			"opacity": 1.0,
+			"script": "\nthis.onStart = function() {\n\tthis.move = false\n\tthis.show = function(){\n\tthis.y = this.getRandomInt(220,450)\n\tthis.x = 370\n\tthis.move = true\n}\n}\n\n\n\nthis.onUpdate = function() {\n\tif (this.isTouching(\"bird\")) {\n\t\tsprites[\"play\"].run = false\n\t\t\n\t}\n\tif (this.move) {\n\t\tthis.x -= 2\n\t}\n\n\t\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		},
+		{
+			"id": "bg",
+			"x": 0,
+			"y": 0,
+			"texture": "background-day.png",
+			"layer": 0,
+			"width": 360,
+			"height": 640,
+			"opacity": 1.0,
+			"script": "\nthis.onStart = function() {\n\tthis.speed = 1\n\tthis.start_x = this.x\n\tthis.c_code = `\nthis.onStart = function() {\n\tthis.start_x = this.x\n}\n\nthis.onUpdate = function() {\n\tthis.x -= ${this.speed}\n\tif (this.x <= this.start_x - this.width) {\n\t\tthis.x = this.start_x\n\t\n\t}\n}\n\nthis.onClick = function() {\n\tsprites[\"bird\"].y -= 50\n}\n\n`\nthis.x = this.start_x + this.width\nthis.clone(this.c_code)\nthis.x = this.start_x\n\n}\n\n\nthis.onClick = function() {\n\tsprites[\"bird\"].y -= 50\n}\n\nthis.onUpdate = function() {\n\tthis.x -= this.speed\n\tif (this.x <= this.start_x - this.width) {\n\t\tthis.x = this.start_x\n\t\n}\n\n}\n\n\n"
+		},
+		{
+			"id": "score_hitbox",
+			"x": 274,
+			"y": 162,
+			"texture": "none.svg",
+			"layer": 1,
+			"width": 5,
+			"height": 300,
+			"opacity": 1.0,
+			"script": "\n\nthis.onStart = function() {\n\t\n\tthis.score = 0\n\tthis.used = false\n}\n\nthis.onUpdate = function() {\n\tif (sprites[\"play\"].run) {\n\t\tthis.y = sprites[\"pipe\"].y - 250\n\t\tthis.x = sprites[\"pipe\"].x + sprites[\"pipe\"].width + 2\n\t\tif (this.used == false){\n\t\tif (this.isTouching(\"bird\")) {\n\t\t\tthis.used = true\n\t\t\tthis.score += 1\n\t\t\tthis.playSound(\"point.ogg\")\n\t\t\tsprites[\"score\"].set(this.score)\n\t\t}}\n\t\tif (this.x <= 20) {\n\t\t\tthis.used = false\n\t\t}\n\t}\n\n}\n\n\n\n\n\n\n\n"
+		},
+		{
+			"id": "bird",
+			"x": 102,
+			"y": 286,
+			"texture": "yellowbird-downflap.png",
+			"layer": 4,
+			"width": 64,
+			"height": 64,
+			"opacity": 1.0,
+			"script": "\nthis.onStart = function() {\nthis.jumped = false;\nthis.playAnimation(\"fly\",5)\n\t\n}\n\nthis.onUpdate = function() {\n\n\tif (input.keydown[\" \"] && !this.jumped) {\n\tthis.jumped = true\n\tthis.y -= 50\n\t}\n\tif (input.keyup[\" \"] && this.jumped) {\n\t\tthis.jumped = false\n\t}\n\n\tif (sprites[\"play\"].run) {\n\t\tthis.y += 3\n\t}\n\tif (this.isTouching([\"base\",\"base2\"]).includes(true) || this.y <= 0) {\n\t\n\tsprites[\"play\"].run = false\n\t\t\n\t}\n\t\n\tif (sprites[\"play\"].run == false) {\n\tthis.x= -500\n\t\n\n}\n\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		},
+		{
+			"id": "base",
+			"x": 0,
+			"y": 539,
+			"texture": "base.png",
+			"layer": 2,
+			"width": 360,
+			"height": 128,
+			"opacity": 1.0,
+			"script": "\nthis.onStart = function() {\n\tthis.speed = 2\n\tthis.start_x = this.x\n\tthis.c_code = `\nthis.onStart = function() {\n\tthis.start_x = this.x\n}\n\nthis.onUpdate = function() {\n\tthis.x -= ${this.speed}\n\tif (this.x <= this.start_x - this.width) {\n\t\tthis.x = this.start_x\n\t\n\t}\n}\n\n`\nthis.x = this.start_x + this.width\nthis.clone(this.c_code,\"base2\")\nthis.x = this.start_x\n\n}\n\n\nthis.onUpdate = function() {\n\tthis.x -= this.speed\n\tif (this.x <= this.start_x - this.width) {\n\t\tthis.x = this.start_x\n\t\n}\n\n}\n\n\n\n"
+		}
+	]
+}
