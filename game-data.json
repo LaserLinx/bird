@@ -14,7 +14,7 @@
 			"width": 64,
 			"height": 64,
 			"opacity": 1.0,
-			"script": "\nthis.onStart = function() {\n\t\n\tthis.uiTextSize = 64\n\tthis.uiText = \"\"\n\tthis.text = \"0\"\n\n\tthis.set = function(text) {\n\t\tthis.text = text\n\t\tthis.uiText = text\n\t}\n\n}\n\n\n\nthis.onUpdate = function(sprites) {\n\tif (sprites[\"play\"].run) {\n\t\tthis.uiText = this.text\n\t} else {\n\t\tthis.uiText = \"\"\n\t}\n}\n\n\n\n\n\n\n"
+			"script": "\nthis.onStart = function() {\n\t\n\tthis.uiTextSize = 64\n\tthis.uiText = \"\"\n\tthis.text = \"0\"\n\n\tthis.set = function(text) {\n\t\tthis.text = text\n\t\tthis.uiText = text\n\t}\n\n}\n\n\n\nthis.onUpdate = function(sprites) {\n\tif (sprites[\"play\"].run) {\n\t\tthis.uiText = this.text\n\t} else {\n\t\tthis.uiText = \"\"\n\t}\n}\n\n\n\n\n\n\n\n"
 		},
 		{
 			"id": "play",
@@ -25,7 +25,7 @@
 			"width": 360,
 			"height": 640,
 			"opacity": 1.0,
-			"script": "\nthis.onStart = function() {\n\t\n\tthis.run = false\n\tthis.diePlayed = false\n\n}\n\n\nthis.onClick = function() {\nthis.x = -500\nsprites[\"bird\"].x = 55\nsprites[\"bird\"].y = 270\nsprites[\"pipe\"].show()\nsprites[\"score\"].set(\"0\")\nsprites[\"score_hitbox\"].used = false\nsprites[\"score_hitbox\"].score = 0\nthis.run = true\nthis.diePlayed = false\n\n}\n\n\n\nthis.onUpdate = function() {\n\t\n\n\tif(this.run == false) {\n\t\tthis.x=0\n\t\tsprites[\"pipe\"].x = -500\n\t\tsprites[\"pipe\"].move = false\n\t\tif (!this.diePlayed) {\n\tthis.playSound(\"die.ogg\");\n\tthis.diePlayed = true\n}\n\t\t\n\t\t\n\t}\n\tif (this.run) {\n\t\tif (sprites[\"pipe\"].x <= -75) {\n\t\t\tsprites[\"pipe\"].show()\n\t\t}\n\t}\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+			"script": "\nthis.onStart = function() {\n\t\n\tthis.run = false\n\tthis.diePlayed = false\n\n}\n\n\nthis.onClick = function() {\nthis.x = -500\nsprites[\"bird\"].x = 55\nsprites[\"bird\"].y = 270\nsprites[\"pipe\"].show()\nsprites[\"score\"].set(\"0\")\nsprites[\"score_hitbox\"].used = false\nsprites[\"score_hitbox\"].score = 0\nthis.run = true\nthis.diePlayed = false\n\n}\n\n\nthis.onUpdate = function() {\n\t\n\t\n\tif(this.run == false) {\n\t\tsprites[\"score\"].uiText = \"\"\n\t\tthis.x=0\n\t\tsprites[\"pipe\"].x = -500\n\t\tsprites[\"pipe\"].move = false\n\t\tif (!this.diePlayed) {\n\tthis.playSound(\"die.ogg\");\n\tthis.diePlayed = true\n}\n\t\t\n\t\t\n\t}\n\tif (this.run) {\n\t\tif (sprites[\"pipe\"].x <= -75) {\n\t\t\tsprites[\"pipe\"].show()\n\t\t}\n\t}\n\nif (input.keydown[\" \"] && !this.run) {\n\tthis.x = -500\nsprites[\"bird\"].x = 55\nsprites[\"bird\"].y = 270\nsprites[\"pipe\"].show()\nsprites[\"score\"].set(\"0\")\nsprites[\"score_hitbox\"].used = false\nsprites[\"score_hitbox\"].score = 0\nthis.run = true\nthis.diePlayed = false\n}\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 		},
 		{
 			"id": "pipe1",
